@@ -3,7 +3,7 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <h1>SpaceX Data</h1>
+      <p>Made to test spacex api using graphql and typescript</p>
     </div>
   );
 };

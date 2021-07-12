@@ -3,67 +3,60 @@ import { useQuery, gql } from "@apollo/client";
 
 const FILMS_QUERY = gql`
   {
-    launchesPast(limit: 10) {
+    launches {
       id
-      launch_date_local
       launch_site {
+        site_id
         site_name_long
+        site_name
       }
       mission_name
-      links {
-        article_link
-        video_link
-      }
       rocket {
         rocket_name
       }
-      ships {
-        name
-        image
+      links {
+        flickr_images
+        article_link
       }
     }
   }
 `;
+
 interface SpaceXObject {
-  id: number;
+  id: string;
   launch_site: {
+    site_id: string;
     site_name_long: string;
+    site_name: string;
   };
-  launch_date_local: Date;
   mission_name: string;
-  links: {
-    article_link: string;
-    video_link: string;
-  };
   rocket: {
     rocket_name: string;
   };
-  ships: [
-    {
-      name: string;
-      image: string | undefined;
-    }
-  ];
+  links: {
+    flickr_images: [string];
+    article_link: string;
+  };
 }
-const Missions = () => {
+const Launches = () => {
   const { data, loading, error } = useQuery(FILMS_QUERY);
   if (loading) return <>Loading...</>;
   if (error) return <pre>{error.message}</pre>;
   return (
     <div>
-      List of missions done by SpaceX
+      List of launches done by SpaceX
       <br />
       <br />
       <div className="row">
-        {data.launchesPast.map((launch: SpaceXObject) => {
+        {data.launches.map((launch: SpaceXObject) => {
           console.log(launch);
           return (
             <div className="column" key={launch.id}>
               <div className="card">
                 <img
                   src={
-                    launch.ships.length > 0
-                      ? launch.ships[0].image
+                    launch.links.flickr_images.length > 0
+                      ? launch.links.flickr_images[0]
                       : "https://annahemi.files.wordpress.com/2015/11/1274237_300x300.jpg"
                   }
                   className="imageWidth"
@@ -73,10 +66,14 @@ const Missions = () => {
                   <h4>
                     <b>{launch.mission_name}</b>
                   </h4>
-                  <p>Date: {launch.launch_date_local}</p>
+                  <p>Launch Site: {launch.launch_site.site_name}</p>
                   <p>Rocket used: {launch.rocket.rocket_name}</p>
                   <p>
-                    <a href={launch.links.video_link}>Video link</a>
+                    {launch.links.article_link ? (
+                      <a href={launch.links.article_link}>Video link</a>
+                    ) : (
+                      <>No article found</>
+                    )}
                   </p>
                 </div>
               </div>
@@ -88,4 +85,4 @@ const Missions = () => {
   );
 };
 
-export default Missions;
+export default Launches;

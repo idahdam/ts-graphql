@@ -34,6 +34,7 @@ const Rocket = () => {
     <div>
       List of rockets used by SpaceX
       <br />
+      <br />
       <div className="row">
         {data.rockets.map((rocket: SpaceXObject) => {
           console.log(rocket);
