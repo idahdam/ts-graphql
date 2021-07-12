@@ -56,7 +56,6 @@ const Missions = () => {
       <br />
       <div className="row">
         {data.launchesPast.map((launch: SpaceXObject) => {
-          console.log(launch);
           return (
             <div className="column" key={launch.id}>
               <div className="card">

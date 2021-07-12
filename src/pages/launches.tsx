@@ -49,7 +49,6 @@ const Launches = () => {
       <br />
       <div className="row">
         {data.launches.map((launch: SpaceXObject) => {
-          console.log(launch);
           return (
             <div className="column" key={launch.id}>
               <div className="card">

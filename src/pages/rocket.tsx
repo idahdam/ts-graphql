@@ -37,7 +37,6 @@ const Rocket = () => {
       <br />
       <div className="row">
         {data.rockets.map((rocket: SpaceXObject) => {
-          console.log(rocket);
           return (
             <div className="column" key={rocket.id}>
               <div className="card">
